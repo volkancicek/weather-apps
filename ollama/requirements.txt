@@ -1,0 +1,8 @@
+mcp[cli]
+langchain
+langchain-community  # For Ollama and other free/local LLMs
+langchain-ollama  # For OllamaLLM integration
+# To use Ollama, install it from https://ollama.com/
+# Add other LLM providers as needed, e.g.:
+# anthropic
+# openai 
