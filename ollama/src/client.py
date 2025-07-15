@@ -38,16 +38,20 @@ def build_tools_prompt(tools: List[Any], user_input: str) -> str:
     tools_str = '\n'.join(tool_descriptions)
     example_json = '{"use_tool": true, "tool_name": "<tool_name>", "arguments": {"arg1": "value1", ...}}'
     prompt = (
-        f"You are a helpful AI assistant. You have access to the following tools:\n{tools_str}\n"
-        f"User input: '{user_input}'\n"
-        f"If the user's input can be answered by using one of the tools, reply with ONLY a JSON object in this format: {example_json}.\n"
-        f"If you choose not to use any tool, reply with your normal answer (not JSON), and do not mention the tools.\n"
-        f"Examples:\n"
-        f"User input: 'how is the weather in Berlin?'\n"
-        f'{{"use_tool": true, "tool_name": "Get Weather Forecast", "arguments": {{"city": "Berlin"}}}}\n'
-        f"User input: 'tell me a joke'\n"
-        f"Why did the scarecrow win an award? Because he was outstanding in his field!\n"
-    )
+    f"You are a helpful AI assistant. You have access to the following tools:\n{tools_str}\n\n"
+    f"When the user input requires information that one of the tools can provide, respond with ONLY a JSON object in the following format:\n"
+    f'{{"use_tool": true, "tool_name": "Tool Name", "arguments": {{...}}}}\n'
+    f"The 'arguments' field should contain the required parameters for the selected tool.\n"
+    f"If the user input can be answered directly (e.g., chatting, telling a joke, general knowledge), respond normally and do NOT mention the tools or return JSON.\n\n"
+    f"Here are some examples:\n"
+    f"User input: 'how is the weather in Berlin?'\n"
+    f'{{"use_tool": true, "tool_name": "get_weather", "arguments": {{"city": "Berlin"}}}}\n\n'
+    f"User input: 'tell me a joke'\n"
+    f"Why did the scarecrow win an award? Because he was outstanding in his field!\n\n"
+    f"Now respond to the following:\n"
+    f"User input: '{user_input}'"
+)
+
     return prompt
 
 def repair_llm_response(resp: str) -> str:
